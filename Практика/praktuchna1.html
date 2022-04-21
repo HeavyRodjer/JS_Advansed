@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <style>
+      .container {
+        display: flex;
+        justify-content: space-between;
+      }
+      .item {
+        border: 2px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Перекладач</h1>
+      <div>
+        <label
+          >Англійська
+          <input
+            type="text"
+            :value="englishWord"
+            disabled
+            placeholder="Введіть слово"
+          />
+        </label>
+      </div>
+      <div>
+        <label
+          >Українська
+          <input
+            type="text"
+            v-model="ukrainianWord"
+            placeholder="Введіть слово"
+          />
+        </label>
+      </div>
+      <button :disabled="currentWord" @click="getRandomWord">
+        Наступне слово
+      </button>
+      <button :disabled="!currentWord" @click="checkTranslation">
+        Перевірити
+      </button>
+      <div class="container">
+        <div class="item">
+          <h1>Правильні відповіді</h1>
+          <ul v-if="correctWords.length">
+            <li v-for="word in correctWords" :key="word.id">
+              {{word.eng}} - {{word.ukr}}
+            </li>
+          </ul>
+          <div v-else>Нема правильних поки</div>
+        </div>
+        <div class="item">
+          <h1>Невірні відповіді</h1>
+          <ul v-if="wrongWords.length">
+            <li v-for="word in wrongWords" :key="word.id">
+              {{word.eng}} - ?????
+            </li>
+          </ul>
+          <div v-else>Нема невірних відповідей поки</div>
+        </div>
+      </div>
+      <div v-if="message">{{message}}</div>
+    </div>
+
+    <script>
+      Vue.createApp({
+        data() {
+          return {
+            englishWord: null,
+            ukrainianWord: null,
+            words: [
+              {
+                id: 1,
+                eng: 'table',
+                ukr: 'стіл',
+              },
+              {
+                id: 2,
+                eng: 'chair',
+                ukr: 'стілець',
+              },
+              {
+                id: 3,
+                eng: 'book',
+                ukr: 'книга',
+              },
+            ],
+            correctWords: [],
+            wrongWords: [],
+            currentWord: null,
+            message: null,
+          }
+        },
+        methods: {
+          getRandomWord() {
+            if (this.words.length === 0 && this.wrongWords.length > 0) {
+              this.words = this.wrongWords
+              this.wrongWords = []
+            }
+            if (this.words.length) {
+              const randomIndex = Math.floor(Math.random() * this.words.length)
+              this.currentWord = this.words[randomIndex]
+              this.words.splice(randomIndex, 1)
+              this.englishWord = this.currentWord.eng
+            } else this.message = 'Молодець. Кінець уроку!'
+          },
+          checkTranslation() {
+            if (this.ukrainianWord === this.currentWord.ukr)
+              this.correctWords.push(this.currentWord)
+            else this.wrongWords.push(this.currentWord)
+            this.currentWord = null
+          },
+        },
+      }).mount('#app')
+    </script>
+  </body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+<body>
+    
+    <a><h2>Заголовок</h2></a>
+    <h2><a>Заголовок</a></h2>
+    <h1>Конвертер валют</h1>
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <div id="app">
+
+        <div>
+            <label>
+                Перше число
+                <input type="number"
+                 v-model ="firstNum"
+                 
+                  >
+            </label>
+        </div>
+        <div>
+            <label>
+                Друге число
+                <input type="number" 
+                v-model ="secondNum" 
+                >
+            </label>
+        </div>
+        <div>
+            <label>
+                Ваша відповідь
+                <input type="number" 
+                :value="answer"
+                >
+            </label>
+        </div>
+        <div>
+            <button 
+            :disabled ="isButtonActive"
+            @click = "checkAnswer"
+            > Перевірити</button>
+        </div>
+        <div
+        v-if="rightAns!==answer"
+        >
+            Правильна відповідь: {{rightAns}}
+        </div>
+        <div>
+            <span
+            :title = "correctTitle"
+            > Правильне: {{correctAns}} </span> <br />
+            <span
+            :title = "wrongTitle"
+            > Неправильне: {{wrongAns}} </span>
+        </div>
+    </div>
+    </div>
+    
+    
+    <script>
+      Vue.createApp({
+        data() {
+          return {
+            firstNum:null,
+            secondNum:null,
+            answer:null,
+            rightAns:-1,
+            correctAns:0,
+            wrongAns:0
+          }
+        },
+        methods:{
+            checkAnswer(){
+                this.rightAns = this.firstNum + this.secondNum
+                if(this.rightAns === this.answer)
+                this.correctAns++
+                else 
+                this.wrongAns++
+            }
+
+        },
+        computed:{
+            wrongTitle(){
+                return `${this.wrongAns} - це кількість неправильних відповідей`
+               
+
+            },
+            correctTitle(){
+                return  `${this.correctAns} - це кількість правильних відповідей`
+            },
+            isButtonActive(){
+                return this.firstNum!== null &&
+                this.secondNum!==null&&
+                this.answer!==null
+            },
+        },
+      }).mount('#app')
+    </script>
+</head>
+
+    
+</body>
+</html>

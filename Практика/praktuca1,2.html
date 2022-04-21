@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <style>
+      .container {
+        display: flex;
+        justify-content: space-between;
+      }
+      .item {
+        border: 2px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Гра сапер</h1>
+      <div>
+        <label
+          >Кількість рядків
+          <input
+            type="number"
+            :value="rowsNumber"
+            disabled
+            placeholder="Введіть к-кість рядків"
+          />
+        </label>
+      </div>
+      <div>
+        <label
+          >Кількість стовпцыів
+          <input
+            type="number"
+            v-model="colsNumber"
+            placeholder="Введіть к-кість стовпців"
+          />
+        </label>
+    </div>
+    <button @click="generateGame"> Згенерувати гру</button>
+
+
+        <div>
+            <table>
+                
+
+            </table>
+        </div>
+        
+     
+    </div>
+
+    <script>
+      Vue.createApp({
+        data() {
+          return {
+            rowsNumber: null,
+            colsNumber: null,
+            gameField: [
+            [{hasMine:true,opened:false},{hasMine:false,opened:false},{hasMine:true,opened:true},]
+            {hasMine:true,opened:false},{hasMine:true,opened:false},{hasMine:true,opened:false},
+            {hasMine:true,opened:false},{hasMine:true,opened:false},{hasMine:true,opened:false},
+            {hasMine:true,opened:false},{hasMine:true,opened:false},{hasMine:true,opened:false},
+            ],
+            correctWords: [],
+            wrongWords: [],
+            currentWord: null,
+            message: null,
+          }
+        },
+        methods: {
+            generateGame(){
+                this.gameField=[]
+                for(let i=0;i<this.rowsNumber;i++){
+                    const row=[]
+                    for(let j=0;j<this.colsNumber;j++){
+                        row.push({
+                            hasMine:Math.floor(Math.random()*2),
+                            opened:false,
+                        })
+                    }
+                    this
+                }
+            }
+          
+          },
+        
+      }).mount('#app')
+    </script>
+  </body>
+</html>

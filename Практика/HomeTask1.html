@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+<body>
+    
+    <h1>Меню</h1>
+    <script src="https://unpkg.com/vue@3"></script>
+
+<div id="app">
+   
+<div>
+    <div>
+        <label > Назва страви
+            <input type="text" v-model="newfoodTitle"> 
+        </label>
+    </div>
+    <div>
+        <label >
+            Ціна страви
+            <input type="number" v-model="newfoodPriority">
+        </label>
+    </div>
+    <button @click="onAddfood"> Додати страву</button>
+   
+</div>
+
+
+
+ <table v-if="filteredfoodList.length>0" border="5px">
+     <tr><th>Страви</th> <th> Ціни  </th></tr>
+     <tr v-for="food in filteredfoodList" :key="food.id">
+         <td>{{food.title}}</td>
+         <td>{{food.priority}} грн</td>
+         <td> <button @click="onCompletefood(food.id)"> Виконано </button></td>
+         <td>
+             <button @click="onDelete(food.id)" >Delete</button>
+         </td>
+
+     </tr>
+ </table>
+ <div v-else > Nema nuch</div>
+ <hr>
+ <h1> Замовлені страви</h1>
+ <table  border="5px" >
+     <tr><th>Страви</th></tr>
+     <tr v-for="food in completedfoodsList" :key="food.id">
+         <td>
+            {{food.title}}
+            <td><button @click="OnCheck(food.id)"> Готово</button></td>
+         </td>
+       
+     </tr>
+
+ </table>
+  <hr>
+  <h1>Готові страви до видачі</h1>
+  <table  border="5px" >
+    <tr><th>Страви</th></tr>
+    <tr v-for="food in readyList" :key="food.id">
+        <td>
+           {{food.title}}
+           <td><button @click="OnPrepared(food.id)"> Видано</button></td>
+        </td>
+     
+    </tr>
+
+</table>
+<hr>
+<h1>Приготовлені страви</h1>
+<table  border="5px" >
+  <tr><th>Страви</th><th>Ціна</th></tr>
+  <tr v-for="food in preparedList" :key="food.id">
+      <td>{{food.title}}</td>
+      <td> {{food.priority}} грн</td>
+   
+  </tr>
+
+</table>
+<h2>Сумма:{{fullPrice}} грн</h2>
+
+ </div>
+    <script>
+      Vue.createApp({
+        data() {
+          return {
+              serchText:null,
+              newfoodTitle:null,
+              newfoodPriority:null,
+              fullPrice:null,
+              foodList: [
+                  {
+                      id:1,
+                      title:'Борщ',
+                      priority: 125,
+                  },
+                  {
+                    id:2,
+                      title:'Вареники',
+                      priority: 55,
+                  },
+                  {
+                    id:3,
+                      title:'Пельмені',
+                      priority: 80,
+                  },
+                  {
+                    id:4,
+                      title:'Картошка ',
+                      priority: 35
+                  },
+              ],
+              completedfoodsList:[],
+              readyList:[],
+              preparedList:[],
+              
+                }
+          },
+          computed:{
+              filteredfoodList()
+              {
+                  if(this.serchText){
+                  const s= this.serchText.toLowerCase()
+                  return this.foodList.filter(food=>
+                  food.title.toLowerCase.include(this.serchText))
+                 } else return this.foodList
+              }
+
+          },
+          methods:{
+              onAddfood(){
+                  this.foodList.push({
+                      id: new Date().getTime(),
+                      title: this.newfoodTitle,
+                      priority: this.newfoodPriority
+                  }
+                      
+                  )
+                },
+                onDelete(idToRemove)
+                {
+                    this.foodList= this.foodList.filter(food=>
+                    food.id!==idToRemove)
+                    
+                },
+                onCompletefood(foodIdToComplate){
+                    const foodIndex = this.foodList.findIndex(food=> 
+                    food.id===foodIdToComplate)
+                if(foodIndex!== -1){
+                    this.completedfoodsList.push(this.foodList[foodIndex])
+                  
+                }
+                },
+                OnCheck(ToCheck){
+                    const CheckIndex = this.completedfoodsList.findIndex(food=> 
+                    food.id===ToCheck)
+                if(CheckIndex!== -1){
+                    this.readyList.push(this.completedfoodsList[CheckIndex])
+                    this.completedfoodsList.splice(CheckIndex,1)
+
+                }
+            },
+            OnPrepared(ToPrepared){
+                    const PreparedIndex = this.readyList.findIndex(food=> 
+                    food.id===ToPrepared)
+                if(PreparedIndex!== -1){
+                    this.preparedList.push(this.readyList[PreparedIndex])
+                    this.fullPrice += this.readyList[PreparedIndex].priority
+                    this.readyList.splice(PreparedIndex,1)
+
+                }
+                
+            }
+
+
+              
+          
+        },
+      }).mount('#app')
+    </script>
+</head>
+
+    
+</body>
+</html>

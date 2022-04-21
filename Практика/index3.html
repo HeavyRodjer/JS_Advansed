@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+<body>
+    <h1>Виведення Списків</h1>
+    <script src="https://unpkg.com/vue@3"></script>
+
+<div id="app">
+        <!-- <div v-fore="(task,ind) in taskList" :key="task.id">
+        <span> {{ind+1}} - {{task.title}} - {{task.priority}}</span>
+ </div> -->
+
+<div>
+    <div>
+        <label > Назва страви
+            <input type="text" v-model="newTaskTitle"> 
+        </label>
+    </div>
+    <div>
+        <label >
+            Ціна страви
+            <input type="text" v-model="newTaskPriority">
+        </label>
+    </div>
+    <button @click="onAddTask"> Додати задачу</button>
+    <div>
+        <label>
+            Назва для фільтрації
+            <input type="text" v-model="searchText">
+        </label>
+    </div> 
+</div>
+
+
+
+ <table v-if="filteredTaskList.length>0" border="5px">
+     <tr><th>Страви</th> <th> Ціни  </th></tr>
+     <tr v-for="task in filteredTaskList" :key="task.id">
+         <td>{{task.title}}</td>
+         <td>{{task.priority}} грн</td>
+         <td> <button @click="onCompleteTask(task.id)"> Виконано </button></td>
+         <td>
+             <button @click="onDelete(task.id)" >Delete</button>
+         </td>
+
+     </tr>
+ </table>
+ <div v-else > Nema nuch</div>
+ <hr>
+ <h1> Виконані задачі</h1>
+ <ul>
+     <li v-for="task in completedTasksList" :key="task.id"> 
+         {{task.title}}
+
+     </li>
+ </ul>
+ </div>
+   
+    
+    <script>
+      Vue.createApp({
+        data() {
+          return {
+              serchText:null,
+              newTaskTitle:null,
+              newTaskPriority:null,
+              taskList: [
+                  {
+                      id:1,
+                      title:'Борщ',
+                      priority: 125,
+                  },
+                  {
+                    id:2,
+                      title:'Вареники',
+                      priority: 55,
+                  },
+                  {
+                    id:3,
+                      title:'Пельмені',
+                      priority: 80,
+                  },
+                  {
+                    id:4,
+                      title:'Картошка ',
+                      priority: 35,
+                  },
+              ],
+              completedTasksList:[
+              {
+                    id:3,
+                      title:'Rrink Casdasd',
+                      priority: 8,
+                  },
+                  {
+                    id:4,
+                      title:'Frink Cgasdasd',
+                      priority: 3,
+                  },
+              ]
+                }
+              
+          
+
+          },
+          computed:{
+              filteredTaskList()
+              {
+                  if(this.serchText){
+                  const s= this.serchText.toLowerCase()
+                  return this.taskList.filter(task=>
+                  task.title.toLowerCase.include(this.serchText))
+                 } else return this.taskList
+                  
+
+              }
+
+          },
+          methods:{
+              onAddTask(){
+                  this.taskList.push({
+                      id: new Date().getTime(),
+                      title: this.newTaskTitle,
+                      priority: this.newTaskPriority
+                  }
+                      
+                  )
+                },
+                onDelete(idToRemove)
+                {
+                    this.taskList= this.taskList.filter(task=>
+                    task.id!==idToRemove)
+                    
+                },
+                onCompleteTask(taskIdToComplate){
+                    const taskIndex = this.taskList.findIndex(task=> 
+                    task.id===taskIdToComplate)
+                if(taskIndex!== -1){
+                    this.completedTasksList.push(this.taskList[taskIndex])
+                  
+                }
+                }
+
+              
+          
+        },
+      }).mount('#app')
+    </script>
+</head>
+
+    
+</body>
+</html>
