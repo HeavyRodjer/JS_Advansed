@@ -2,7 +2,7 @@
     <div >
         <div v-for="(product,index) in productPrice" :key="index">
             {{title}}
-            <input type="number" v-model="product.price">
+            <input type="number" v-model="product.price"> Не змінюйте властивостей. 
             <input type="number" v-model="product.count">
             <input type="number" v-model="product.tax">
         </div>
@@ -13,7 +13,7 @@
     export default {
         name:'ProductPriceEditor',
         props: {
-            productPrice: {
+            productPrice: {    
                 type: Array,
                 default: () => []
             },
