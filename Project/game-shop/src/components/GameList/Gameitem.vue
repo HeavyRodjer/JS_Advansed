@@ -1,3 +1,4 @@
+/* eslint-disable vue/no-parsing-error */
 <template>
     <div class="game-item-block">
         <div class="game-item-holder">
@@ -5,8 +6,12 @@
            <div class="img"><img :src="gameItem.url" ></div> 
            <div class="prod-info">
         <div class="name"><span>{{gameItem.title}}</span></div>
-        <div class="price"><span>{{gameItem.price}}</span></div>
-        <div><button @click="$emit('buy')"> Купити</button></div>
+        <div class="price"><span>{{gameItem.price }}$</span></div>
+        <div class="btn">
+            
+            <button @click="$emit('buy')"> Купити</button>
+            <button @click="$emit('edit')">Редагувати </button>
+        </div>  
         </div>
         </div>
 
@@ -21,9 +26,10 @@
         props: {
             gameItem: {
                 type: Object,
-                default: ()=>{}
+                default: ()=>({})
             },
         },
+       
         
     }
 </script>
@@ -59,6 +65,9 @@
     display: block;
     line-height: 15px;
     padding: 0;
+}
+.btn{
+    padding:2%;
 }
 
 </style>

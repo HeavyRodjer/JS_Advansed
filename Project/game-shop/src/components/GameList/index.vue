@@ -4,8 +4,10 @@
        v-for="gameItem  in gameList" 
        :key="gameItem.id"
        :gameItem="gameItem"
+       @buy="onBuy(gameItem.id)"
+        @edit="onEdit(gameItem.id)"
   />
-      
+
 
     </div>
 </template>
@@ -13,10 +15,13 @@
 <script>
 import GameItem from "./Gameitem.vue"
 import { v4 as uuidv4 } from "uuid";
+import store from "@/store";
+
     export default {
         name:"GameList",
         components:{
-            GameItem
+            GameItem,
+           
 
         },
         data() {
@@ -63,6 +68,29 @@ import { v4 as uuidv4 } from "uuid";
                 ]
             }
         },
+         computed: {
+    isDataEmpty() {
+      return this.gameList.length === 0;
+    },
+  },
+        methods: {
+onLoad() {
+      this.gameList = store.readProducts();
+    },
+    onEdit(id) {
+      this.$router.push({
+        name: "editPage",
+        params: {
+          id,
+        },
+      });
+    },
+    mounted() {
+    this.onLoad();
+  },
+
+  },
+ 
             }
 </script>
 

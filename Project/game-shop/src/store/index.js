@@ -12,35 +12,32 @@ export default {
     localStorage.setItem("productsList", JSON.stringify(products));
   },
   //Метод для додавання нового товару до списку у localStorage
-  addProduct: function (productTitle, productPrice) {
+  addProduct: function (productTitle,productUrl, productPrice) {
     //Створюємо новий об"єкт-товар
     const product = {
       id: uuidv4(),
       title: productTitle,
+      url: productUrl,
       price: productPrice,
     };
-    let productsList = this.readProducts(); //Зчитуємо список (масив) товарів з localStorage
-    productsList.push(product); //Додаємо новий об"єкт-товар у список
-    this.writeProducts(productsList); //Зберігаємо список товарів у localStorage
+    let productsList = this.readProducts(); 
+    productsList.push(product); 
+    this.writeProducts(productsList); 
   },
-  deleteProduct: function (idToDelete) {
-    let productsList = this.readProducts(); //Зчитуємо список (масив) товарів з localStorage
-    productsList = productsList.filter((item) => item.id !== idToDelete); //Видалили з масиву продукт
-    this.writeProducts(productsList); //Зберігаємо список товарів у localStorage
-  },
+
   updateProduct(product) {
-    let productsList = this.readProducts(); //Зчитуємо список (масив) товарів з localStorage
+    let productsList = this.readProducts(); 
     const productIndex = productsList.findIndex(
-      (item) => item.id === product.id
+      (title) => title.id === product.id
     );
     if (productIndex >= 0)
       productsList[productIndex] = {
         ...product,
       };
-    this.writeProducts(productsList); //Зберігаємо список товарів у localStorage
+    this.writeProducts(productsList); 
   },
   getProductById(id) {
-    let productsList = this.readProducts(); //Зчитуємо список (масив) товарів з localStorage
-    return productsList.find((item) => item.id === id);
+    let productsList = this.readProducts();  
+    return productsList.find((title) => title.id === id);
   },
 };
