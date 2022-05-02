@@ -1,12 +1,10 @@
 <template>
-    <div>
-        <game-item
+    <div class="game-list">
+        <game-item 
        v-for="gameItem  in gameList" 
        :key="gameItem.id"
        :gameItem="gameItem"
-       
-        
-        />
+  />
       
 
     </div>
@@ -14,6 +12,7 @@
 
 <script>
 import GameItem from "./Gameitem.vue"
+import { v4 as uuidv4 } from "uuid";
     export default {
         name:"GameList",
         components:{
@@ -24,16 +23,41 @@ import GameItem from "./Gameitem.vue"
             return {
                 gameList: [
                     {
-                        id:"1",
-                        url:"https://game-shop.com.ua/prodimages/25885/thumbs/121422_300_300.jpg",
-                        title:"Far Cry 6",
+                        id:uuidv4(),
+                        url:"https://game-shop.com.ua/prodimages/23818/thumbs/122182_300_300.jpg",
+                        title:"Dying Light 2 PS5",
                         price:200,
                        
 
                     },{
-                        id:u,
-                        url:"https://game-shop.com.ua/prodimages/25885/thumbs/121422_300_300.jpg",
-                        title:"Far Cry 6",
+                        id:uuidv4(),
+                        url:"https://game-shop.com.ua/prodimages/23818/thumbs/122182_300_300.jpg",
+                        title:"Dying Light 2 PS5",
+                        price:200
+                    },
+                    {
+                        id:uuidv4(),
+                        url:"https://game-shop.com.ua/prodimages/23818/thumbs/122182_300_300.jpg",
+                        title:"Dying Light 2 PS5",
+                        price:200,
+                       
+
+                    },{
+                        id:uuidv4(),
+                        url:"https://game-shop.com.ua/prodimages/23818/thumbs/122182_300_300.jpg",
+                        title:"Dying Light 2 PS5",
+                        price:200
+                    },{
+                        id:uuidv4(),
+                        url:"https://game-shop.com.ua/prodimages/23818/thumbs/122182_300_300.jpg",
+                        title:"Dying Light 2 PS5",
+                        price:200,
+                       
+
+                    },{
+                        id:uuidv4(),
+                        url:"https://game-shop.com.ua/prodimages/23818/thumbs/122182_300_300.jpg",
+                        title:"Dying Light 2 PS5",
                         price:200
                     }
                 ]
@@ -43,5 +67,15 @@ import GameItem from "./Gameitem.vue"
 </script>
 
 <style lang="css" scoped>
+.game-list{
+     float: left;
+    clear: both;
+    border-top: none;
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    margin-left: 1%;
+}
 
 </style>
