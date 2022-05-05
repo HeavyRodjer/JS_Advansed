@@ -1,43 +1,65 @@
-import { v4 as uuidv4 } from "uuid"; //Модуль для генерування ID
+import { createStore } from 'vuex'
+import { v4 as uuidv4 } from "uuid";
 
-export default {
-  //Метод для зчитування списку товарів (масиву об"єктів-товарів) з localStorage
-  readProducts: function () {
-    if (localStorage.getItem("productsList"))
-      return JSON.parse(localStorage.getItem("productsList"));
-    else return [];
-  },
-  //Метод для запису списку товарів у  localStorage
-  writeProducts: function (products) {
-    localStorage.setItem("productsList", JSON.stringify(products));
-  },
-  //Метод для додавання нового товару до списку у localStorage
-  addProduct: function (productTitle,productUrl, productPrice) {
-    //Створюємо новий об"єкт-товар
-    const product = {
-      id: uuidv4(),
-      title: productTitle,
-      url: productUrl,
-      price: productPrice,
-    };
-    let productsList = this.readProducts(); 
-    productsList.push(product); 
-    this.writeProducts(productsList); 
-  },
+// Create a new store instance.
+const store = createStore({
+  state () {
+    return {
+      gameList: [
+        {
+          id:uuidv4(),
+          url:"https://game-shop.com.ua/prodimages/23818/thumbs/122182_300_300.jpg",
+          title:"Dying Light 2 PS5",
+          price:200,
+      },{
+          id:uuidv4(),
+          url:"https://game-shop.com.ua/prodimages/23818/thumbs/122182_300_300.jpg",
+          title:"Dying Light 2 PS5",
+          price:200
+      },
+      {
+          id:uuidv4(),
+          url:"https://game-shop.com.ua/prodimages/23818/thumbs/122182_300_300.jpg",
+          title:"Dying Light 2 PS5",
+          price:200,
+         
 
-  updateProduct(product) {
-    let productsList = this.readProducts(); 
-    const productIndex = productsList.findIndex(
-      (title) => title.id === product.id
-    );
-    if (productIndex >= 0)
-      productsList[productIndex] = {
-        ...product,
-      };
-    this.writeProducts(productsList); 
+      },{
+          id:uuidv4(),
+          url:"https://game-shop.com.ua/prodimages/23818/thumbs/122182_300_300.jpg",
+          title:"Dying Light 2 PS5",
+          price:200
+      },{
+          id:uuidv4(),
+          url:"https://game-shop.com.ua/prodimages/23818/thumbs/122182_300_300.jpg",
+          title:"Dying Light 2 PS5",
+          price:200,
+         
+
+      },{
+          id:uuidv4(),
+          url:"https://game-shop.com.ua/prodimages/23818/thumbs/122182_300_300.jpg",
+          title:"Dying Light 2 PS5",
+          price:200
+      }
+      ]
+    }
   },
-  getProductById(id) {
-    let productsList = this.readProducts();  
-    return productsList.find((title) => title.id === id);
+  getters:{
+    getGamesList: state => state.gameList
+
   },
-};
+  mutations: {
+    increment (state,payload) {
+      state.gameList = payload
+    }
+},
+  actions:{
+    updateValue([comit],payload){
+      comit("increment",payload)
+    },
+   
+    
+  }
+})
+export default store
