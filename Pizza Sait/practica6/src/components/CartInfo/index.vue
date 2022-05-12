@@ -22,7 +22,7 @@ export default {
   },
   computed: {
     ...mapGetters(["getPizzaList", "getPizzaBuy"]),
-    ...mapActions(["updatePizza"]),
+    
   },
   data() {
     return {
@@ -30,6 +30,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["updatePizza"]),
     onLoad() {
       this.cart = this.getPizzaBuy;
     },
